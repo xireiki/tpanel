@@ -1,0 +1,911 @@
+/* 网页初始化 */
+@font-face {
+  font-family:CascadiaMono;
+  src:url(/fonts/CascadiaMono.ttf);
+  font-weight:400;
+  font-style:normal
+}
+@font-face {
+  font-family:CascadiaMono;
+  src:url(/fonts/CascadiaMonoPL.ttf);
+  font-weight:700;
+  font-style:normal
+}
+@font-face {
+  font-family:CascadiaMono;
+  src:url(/fonts/CascadiaMonoItalic.ttf);
+  font-weight:400;
+  font-style:italic
+}
+@font-face {
+  font-family:CascadiaMono;
+  src:url(/fonts/CascadiaMonoPLItalic.ttf);
+  font-weight:700;
+  font-style:italic
+}
+@font-face {
+  font-family:GoogleSansText;
+  src:url(/fonts/GoogleSansText-Regular.ttf);
+  font-weight:400;
+  font-style:normal
+}
+@font-face {
+  font-family:GoogleSansText;
+  src:url(/fonts/GoogleSansText-Bold.ttf);
+  font-weight:700;
+  font-style:normal
+}
+@font-face {
+  font-family:GoogleSansText;
+  src:url(/fonts/GoogleSansText-Italic.ttf);
+  font-weight:400;
+  font-style:italic
+}
+@font-face {
+  font-family:GoogleSansText;
+  src:url(/fonts/GoogleSansText-BoldItalic.ttf);
+  font-weight:700;
+  font-style:italic
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: GoogleSansText;
+}
+:root {
+  /* Color */
+  --main-color: #66ccff;
+  --light-color: #ffffff;
+  --border-color: #ffffff;
+  --button-color: #ffffff;
+  --button-background-color: #66ccff;
+  --button-disable-color: #111111;
+  --button-disable-background-color: #E0E0E0;
+  --transparent-background-color: #ffffff40;
+  --info-color: #ffffff;
+  --info-background-color: #00ff00;
+  --warn-color: #ffffff;
+  --warn-background-color: #ffa500;
+  --err-color: #ffffff;
+  --err-background-color: #ff0000;
+  --input-bottom-color: #66ccff;
+  --select-input-bottom-color: #88eeff;
+  --authorization-tip-color: #66ccff;
+  --authorization-input-bottom-color: #66ccff;
+  --authorization-select-input-bottom-color: #88eeff;
+  --options-description-color: #878787;
+  --options-color: #000000;
+  --options-stroke-color: #ffffff;
+  
+  /* Size */
+  --border-size: 1px;
+  --options-stroke-size: 0.3px;
+}
+html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  background-size: cover;
+  -webkit-background-size: cover 100%;
+  -o-background-size: cover 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: cover;
+  background-image: url("/images/bg.png");
+}
+body {
+  width: 100%;
+}
+/* 全局设置 */
+input[type="checkbox"] {
+  visibility: hidden;
+}
+button {
+  width: 50px;
+  height: 25px;
+  background-color: var(--button-background-color);
+  color: var(--button-color);
+  margin: 2px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0px 0px;
+  border: var(--border-size) solid var(--transparent-background-color);
+  box-shadow: 0 0 5px var(--light-color);
+  backdrop-filter: blur(6px);
+  transition: color 0.5s, background-color 0.5s;
+}
+button:disabled {
+  background-color: var(--button-disable-background-color);
+  color: var(--button-disable-color);
+}
+input[type="text"] {
+  line-height: 1.1rem;
+  font-size: 1.0rem;
+  color: white;
+  border: none;
+  border-bottom: 2px solid var(--input-bottom-color);
+  background: none;
+  outline: none;
+  margin: 5px auto;
+}
+input[type="text"]:focus {
+  border-bottom: 2px solid var(--select-input-bottom-color);
+  outline: none;
+}
+input[type="number"] {
+  line-height: 1.1rem;
+  font-size: 1.0rem;
+  color: white;
+  border: none;
+  border-bottom: 2px solid var(--input-bottom-color);
+  background: none;
+  outline: none;
+  margin: 5px auto;
+}
+input[type="number"]:focus {
+  border-bottom: 2px solid var(--select-input-bottom-color);
+  outline: none;
+}
+.no-scroll {
+  overflow: hidden;
+}
+.Mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: #00000050;
+  background-size: cover;
+  -webkit-background-size: cover 100%;
+  -o-background-size: cover 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: cover;
+  background-image: url("/images/bg.png");
+}
+/* label 开关 */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.toggle:after {
+  content: "";
+  position: absolute;
+  width: 22.5px;
+  height: 22.5px;
+  border-radius: 18px;
+  background-color: #fff;
+  top: 1px;
+  left: 1px;
+  transition: all 0.3s;
+}
+input[type="checkbox"]:checked+.toggle::after{
+  transform: translateX(25px);
+}
+input[type="checkbox"]:checked+.toggle {
+  background-color: var(--main-color);
+}
+/* select 选择 */
+select {
+  cursor: pointer;
+  padding: 3px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+select:focus {
+  outline: none;
+}
+/* app 框架 */
+.app {
+  width: 100%;
+}
+/* 输入框 */
+.authorization {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  top: 150px;
+  min-height: 50px;
+  border-radius: 25px;
+  border: var(--border-size) solid var(--border-color);
+  box-shadow: 3px 3px 2px var(--light-color);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  animation: FadeIn 0.5s ease-in forwards;
+}
+.authorization > p {
+  color: var(--authorization-tip-color);
+  text-align: center;
+  width: 60%;
+  margin: 10px auto;
+  box-shadow: 0px 0px 5px var(--light-color);
+  border-radius: 25px;
+  background-color: var(--transparent-background-color);
+}
+.authorization > input {
+  width: 65%;
+  transition: width 0.5s;
+}
+.authorization > input:hover {
+  width: 70%;
+}
+/* 信息栏 */
+.outside {
+  width: 80%;
+  /* height: auto; */
+  min-height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 25px;
+  display: black;
+  margin: 15px auto;
+  position: relative;
+  border: var(--border-size) solid var(--border-color);
+  box-shadow: 0px 0px 10px var(--light-color);
+  backdrop-filter: blur(6px);
+}
+/* 第一个信息栏 */
+#info {
+  margin-top: 20px;
+}
+.img_box {
+  display: black;
+  width: 65%;
+  max-width: 200px;
+  min-height: 150px;
+  max-height: 200px;
+  margin: 0 auto;
+}
+.img_box > img {
+  display: grid;
+  width: 100%;
+  height: cover;
+  margin: 0 auto;
+  grid-template-columns: 1fr;
+  animation: FadeIn 0.5s ease-in forwards;
+}
+.controlCenter {
+  display: black;
+  width: 95%;
+  margin: 10px auto;
+  min-height: 130px;
+  max-height: 200px;
+  border-radius: 25px;
+  opacity: 0;
+  animation: FadeIn 0.5s ease-in forwards;
+  border: var(--border-size) solid var(--border-color);
+  word-break: break-all;
+  box-shadow: 0 0 5px var(--light-color);
+  background-color: var(--transparent-background-color);
+}
+.statusbar {
+  display: inline-block;
+  width: 70%;
+  min-height: 175px;
+  height: auto;
+  font-size: 1em;
+  position: relative;
+  vertical-align: middle;
+}
+.statusbar > div {
+  display: black;
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  top: 12.5px;
+}
+.statusbar > div > p {
+  text-align: center;
+  line-height: 25px;
+}
+.controller {
+  display: inline-block;
+  width: 30%;
+  position: relative;
+  top: 0;
+  height: auto;
+  font-size: 1em;
+  vertical-align: middle;
+}
+.controller > button {
+  width: 50%;
+  margin: 10px 30px;
+  padding: 5px;
+  min-height: 30px;
+}
+.speed {
+  width: 95%;
+  margin: 10px auto;
+  border-radius: 15px;
+  opacity: 0;
+  animation: FadeIn 0.5s ease-in forwards;
+  border: var(--border-size) solid var(--border-color);
+  word-break: break-all;
+  box-shadow: 0 0 5px var(--light-color);
+  background-color: var(--transparent-background-color);
+}
+.speed > p {
+  display: inline-block;
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+/* 第二个信息栏 */
+.yiyan {
+  font-family: CascadiaMono;
+  font-size: 0.8em;
+  border-radius: 20px;
+  border: var(--border-size) solid white;
+  word-break: break-all;
+  box-shadow: 0 0 5px var(--light-color);
+  margin: 5px auto;
+  margin-top: 20px;
+  word-break: break-all;
+  text-align: center;
+  width: 80%;
+  min-height: 20px;
+  background-color: var(--transparent-background-color);
+  animation: FadeIn 0.5s ease-in forwards;
+}
+#jinrishici-sentence {
+  opacity: 0;
+  animation: FadeIn 0.5s ease-in forwards;
+}
+#subs {
+  max-height: 50vh;
+  overflow: scroll;
+}
+.subs {
+  width: 80%;
+  min-height: 30px;
+  margin: 15px auto;
+  border: var(--border-size) solid var(--border-color);
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px var(--light-color);
+  opacity: 0;
+  animation: FadeIn 0.5s ease-in forwards;
+  background-color: var(--transparent-background-color);
+}
+.subsTitle {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+}
+.container {
+  min-height: 30px;
+  width: 100%;
+}
+.container > p {
+  text-align: center;
+}
+.uploadFlowRate {
+  display: inline-block;
+  min-height: 25px;
+  width: 30%;
+  margin: 2px 1.6%;
+}
+.downloadFlowRate {
+  display: inline-block;
+  min-height: 25px;
+  width: 30%;
+  margin: 2px 1.6%;
+}
+.usedFlowRate {
+  display: inline-block;
+  min-height: 25px;
+  width: 30%;
+  margin: 2px 1.6%;
+}
+.totalFlowRate {
+  display: inline-block;
+  min-height: 25px;
+  width: 30%;
+  margin: 2px 1.6%;
+}
+.totalFlowRate > .infoIcon {
+  font-size: 1.2em;
+}
+.expireDate {
+  display: inline-block;
+  min-height: 25px;
+  width: 30%;
+  margin: 2px 1.6%;
+}
+.updateTime  {
+  display: inline-block;
+  min-height: 25px;
+  width: 30%;
+  margin: 2px 1.6%;
+}
+.infoIcon {
+  font-size: 0.8em;
+  line-height: 25px;
+  margin: 0 3px;
+  width: 20%
+  text-align: center;
+}
+.infoText {
+  font-size: 0.8em;
+  line-height: 25px;
+  width: 80%;
+  text-align: center;
+}
+.httpFlowRate {
+  display: inline-block;
+  min-height: 30px;
+  width: 61%;
+  margin: 2px 2%;
+}
+.httpUpdateTime  {
+  display: inline-block;
+  min-height: 30px;
+  width: 31%;
+  margin: 2px 2%;
+}
+.fileFlowRate {
+  min-height: 30px;
+  width: 92%;
+  margin: 2px 4%;
+}
+/* 第三个信息栏 */
+#log {
+  height: 50vh;
+}
+.logs {
+  margin: 8px 20px;
+  height: 95%;
+  overflow: scroll;
+  backdrop-filter: blur(0px);
+  animation: FadeIn 0.5s ease-in forwards;
+}
+.logs > p {
+  font-family: CascadiaMono;
+  font-size: 0.8em;
+  border-radius: 5px;
+  border: var(--border-size) solid var(--border-color);
+  background-color: var(--transparent-background-color);
+  margin: 5px auto;
+  word-break: break-all;
+  box-shadow: 0 0 5px var(--light-color);
+  padding: 5px;
+}
+.logs span {
+  font-family: CascadiaMono;
+  font-size: 1em;
+}
+.logSpace:before {
+  content: " ";
+}
+.logSpace:after {
+  content: " ";
+}
+.infoLog {
+  color: var(--info-color);
+  background-color: var(--info-background-color);
+  margin: 2px 5px;
+  max-width: 30px;
+  border-radius: 8px;
+  white-space: pre;
+}
+.warnLog {
+  color: var(--warn-color);
+  background-color: var(--warn-background-color);
+  margin: 2px 5px;
+  max-width: 30px;
+  border-radius: 8px;
+  white-space: pre;
+}
+.errLog {
+  color: var(--err-color);
+  background-color: var(--err-background-color);
+  margin: 2px 5px;
+  max-width: 30px;
+  border-radius: 8px;
+  white-space: pre;
+}
+/* 设置弹窗 */
+.setting {
+  position: fixed;
+  width: 95%;
+  min-height: 30px;
+  max-height: 80%;
+  left: 2%;
+  right: 2%;
+  top: 0%;
+  bottom: 0%;
+  margin: auto;
+  overflow: scroll;
+  border-radius: 25px;
+  border: var(--border-size) solid var(--border-color);
+  box-shadow: 0px 0px 10px var(--light-color);
+  backdrop-filter: blur(10px);
+  animation: FadeIn 0.2s ease-in forwards;
+  background-color: var(--transparent-background-color);
+}
+.settingTitle {
+  width: 80%;
+  font-size: 1.2em;
+  margin: 10px auto;
+  text-align: center;
+  font-weight: bold;
+}
+.inner {
+  width: 95%;
+  max-height: 90%;
+  margin: 15px auto;
+  overflow: scroll;
+  position: relative;
+}
+.option {
+  width: 97%;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: var(--border-size) solid var(--border-color);
+  background-color: var(--transparent-background-color);
+  word-break: break-all;
+  box-shadow: 0 0 5px var(--light-color);
+  padding: 1%;
+}
+.optionTitle {
+  font-size: 1.2em;
+  color: var(--options-color);
+}
+.optionDescription {
+  font-size: .6em;
+  color: var(--options-description-color);
+  text-stroke: var(--options-stroke-size) var(--options-stroke-color);
+  -webkit-text-stroke: var(--options-stroke-size) var(--options-stroke-color);
+  font-weight: bold;
+}
+.settingBox {
+  width: 93%;
+  min-height: 30px;
+  max-height: 80%;
+  padding: 1%;
+  position: fixed;
+  top: 2%;
+  bottom: 2%;
+  margin: auto;
+  left: 2.5%;
+  right: 2.5%;
+  border-radius: 25px;
+  border: var(--border-size) solid var(--border-color);
+  background-color: var(--transparent-background-color);
+  word-break: break-all;
+  box-shadow: 0 0 5px var(--light-color);
+  backdrop-filter: blur(10px);
+  overflow: scroll;
+  animation: FadeIn 0.2s ease-in forwards;
+}
+.settingBox > p {
+  width: 80%;
+  font-size: 1.2em;
+  margin: 10px auto;
+  text-align: center;
+  font-weight: bold;
+}
+/* 设置选项 */
+.settingBox > div {
+  width: 90%;
+  margin: 2px auto;
+}
+.settingName {
+  width: 80%;
+  margin: 2px 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+.settingNameInput {
+  width: 50%;
+}
+.settingBox > button {
+  display: inline-block;
+  position: relative;
+  width: 90%;
+  padding: 10px;
+  min-height: 40px;
+  margin-left: 5%;
+  margin-top: 1%;
+}
+.settingBox > div > div {
+  width: 20%;
+  margin: 2px auto;
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+}
+.settingBox > div > .settingInputBox {
+  width: 50%;
+  margin: 2px auto;
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+}
+.settingBox > div > div > .toggle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  text-align: center;
+}
+.settingBox > div > div > select {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  margin: 2px auto;
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1em;
+}
+.settingBox > div > div > button {
+  position: absolute;
+  padding: 0;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  margin: 2px auto;
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  padding: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1em;
+}
+.settingBox > div > div > input {
+  width: 95%;
+  transition: width 0.5s;
+}
+.settingBox > div > div > input:hover {
+  width: 100%;
+}
+#authorizationKeyName {
+  width: 50%;
+}
+#authorizationKeyBox {
+  width: 50%;
+  text-align: center;
+  margin: 2px auto;
+  right: 0;
+}
+#authorizationKeyBox > input[type="text"] {
+  width: 95%;
+  transition: width 0.5s;
+}
+#authorizationKeyBox > input[type="text"]:hover {
+  width: 100%;
+}
+#modeForm {
+}
+#boxConfigBox {
+  background: blue;
+  text-align: right;
+}
+.settingListBox {
+  width: 93%;
+  min-height: 30px;
+  max-height: 80%;
+  padding: 1%;
+  position: fixed;
+  top: 2%;
+  bottom: 2%;
+  margin: auto;
+  left: 2.5%;
+  right: 2.5%;
+  border-radius: 25px;
+  border: var(--border-size) solid var(--border-color);
+  background-color: var(--transparent-background-color);
+  word-break: break-all;
+  box-shadow: 0 0 5px var(--light-color);
+  backdrop-filter: blur(10px);
+  overflow: scroll;
+  animation: FadeIn 0.2s ease-in forwards;
+}
+.settingListBox > p {
+  width: 80%;
+  font-size: 1.2em;
+  margin: 10px auto;
+  text-align: center;
+  font-weight: bold;
+}
+.allsub {
+  width: 96%;
+  position: relative;
+  left: 1.5%;
+  overflow: scroll;
+  margin: 5px auto;
+}
+.everysub {
+  width: 40%;
+  padding: 2%;
+  margin: 5px 2%;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  border-radius: 15px;
+  border: var(--border-size) solid var(--border-color);
+  background-color: var(--transparent-background-color);
+  box-shadow: 0 0 5px var(--light-color);
+}
+.everysub > p:first-child {
+  font-size: 1.2em;
+  color: var(--main-color);
+  font-weight: bold;
+}
+.everysub > p {
+  width: 100%;
+  text-align: center;
+}
+/* 淡入动画 */
+@keyframes FadeIn {
+  from {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.1;
+  }
+  40% {
+    opacity: 0.2;
+  }
+  60% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes FadeOut {
+  from {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.7;
+  }
+  40% {
+    opacity: 0.3;
+  }
+  60% {
+    opacity: 0.2;
+  }
+  80% {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes GrowUp {
+  10% {
+    height: 10vh;
+  }
+  20% {
+    height: 20vh;
+  }
+  50% {
+    height: 30vh;
+  }
+  70 {
+    height: 40vh;
+  }
+  100% {
+    height: 50vh;
+  }
+}
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  display: none;
+}
+.no-script {
+  display: flex;
+  width: 100px;
+  height: 30px;
+  border: var(--border-size) solid var(--border-color);
+  align-items: center;
+  justify-content: center;
+}
+/* 响应式布局 */
+@media screen and (min-width: 800px){
+  #log, #subs {
+    display: inline-block;
+    margin: 15px 1%;
+    width: 38%;
+    height: 50vh;
+    vertical-align: middle;
+  }
+  #subs {
+    left: 10%;
+  }
+  #log {
+    left: 10%;
+  }
+  .app {
+    margin: 15px auto;
+  }
+  .subs {
+    overflow: scroll;
+  }
+  .container > p {
+    font-size: 1em
+  }
+  .infoIcon {
+    font-size: 1em;
+  }
+  .infoText {
+    font-size: 1em;
+  }
+  .updateTime > .infoIcon, .totalFlowRate > .infoIcon, .httpUpdateTime > .infoIcon {
+    font-size: 1.3em;
+  }
+  .speed > p > span {
+    font-size: 1.0em;
+  }
+}
+@media screen and (max-width: 800px){
+  #subs, #log {
+    max-width: 800px;
+  }
+  .infoIcon {
+    font-size: 0.9em;
+  }
+  .infoText {
+    font-size: 0.9em;
+  }
+  .updateTime > .infoIcon, .totalFlowRate > .infoIcon, .httpUpdateTime > .infoIcon {
+    font-size: 1.2em;
+  }
+  .speed > p > span {
+    font-size: 1.0em;
+  }
+  .container > p {
+    font-size: 0.9em
+  }
+}
+@media screen and (max-width: 380px){
+  #subs, #log {
+    max-height: 50vh;
+  }
+  .container > p {
+    font-size: 0.9em
+  }
+  .infoIcon {
+    font-size: 0.6em;
+  }
+  .infoText {
+    font-size: 0.6em;
+  }
+  .updateTime > .infoIcon, .totalFlowRate > .infoIcon, .httpUpdateTime > .infoIcon {
+    font-size: 0.9em;
+  }
+  .speed > p > span {
+    font-size: 1.0em;
+  }
+}

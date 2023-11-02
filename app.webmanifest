@@ -1,0 +1,30 @@
+{
+  "name": "神秘",
+  "short_name": "神秘",
+  "start_url": "/",
+  "description": "神秘。啊神秘~",
+  "icons": [
+    {
+      "src": "/images/maho.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/maho_72x72.ico",
+      "sizes": "72x72",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/maho_96x96.ico",
+      "sizes": "96x96",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/maho_144x144.ico",
+      "sizes": "144x144",
+      "type": "image/x-icon"
+    }
+  ],
+  "display": "standalone",
+  "background_color": "#ffffff"
+}
