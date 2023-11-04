@@ -48,11 +48,23 @@ export class maho {
     if(method == "GET"){
       req = fetch(apiPath, {method: "GET", headers: headers});
     } else if(method == "POST"){
-      req = fetch(apiPath, {method: "POST", headers: headers, body: JSON.stringify(data)});
+      if(data == null || data == undefined){
+        req = fetch(apiPath, {method: "POST", headers: headers});
+      } else {
+        req = fetch(apiPath, {method: "POST", headers: headers, body: JSON.stringify(data)});
+      }
     } else if(method == "PATCH"){
-      req = fetch(apiPath, {method: "PATCH", headers: headers, body: JSON.stringify(data)});
+      if(data == null || data == undefined){
+        req = fetch(apiPath, {method: "PATCH", headers: headers});
+      } else {
+        req = fetch(apiPath, {method: "PATCH", headers: headers, body: JSON.stringify(data)});
+      }
     } else if(method == "PUT"){
-      req = fetch(apiPath, {method: "PUT", headers: headers, body: JSON.stringify(data)});
+      if(data == null || data == undefined){
+        req = fetch(apiPath, {method: "PUT", headers: headers});
+      } else {
+        req = fetch(apiPath, {method: "PUT", headers: headers, body: JSON.stringify(data)});
+      }
     } else if(method == "DELETE"){
       req = fetch(apiPath, {method: "DELETE", headers: headers});
     } else {

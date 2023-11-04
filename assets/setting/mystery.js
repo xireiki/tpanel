@@ -456,7 +456,7 @@ export function mystery(e){
             button.innerText = "生成";
             button.addEventListener("click", event => {
               // 生成兼容配置逻辑
-              panel.maho("", "PUT").then(req => {
+              panel.maho(null, "PUT").then(req => {
                 if(!req.ok) alert("生成分享配置失败: " + response.status + ", 请刷新网页重试");
               }).catch(err => {
                 logging.error(err);
