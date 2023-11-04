@@ -762,6 +762,12 @@ select:focus {
   width: 100%;
   text-align: center;
 }
+#PartitionLine {
+  background-color: white;
+  height: 3px;
+  border-radius: 2px;
+  border: var(--border-size) solid var(--border-color);
+}
 /* 淡入动画 */
 @keyframes FadeIn {
   from {
@@ -825,12 +831,13 @@ select:focus {
   display: none;
 }
 .no-script {
-  display: flex;
-  width: 100px;
-  height: 30px;
-  border: var(--border-size) solid var(--border-color);
-  align-items: center;
-  justify-content: center;
+  /*display: flex;*/
+  /*width: 100px;*/
+  /*height: 30px;*/
+  /*border: var(--border-size) solid var(--border-color);*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  display: none;
 }
 /* 响应式布局 */
 @media screen and (min-width: 800px){
