@@ -65,7 +65,7 @@ function updateStatus(status, runMode, apMode, cpu, button = []){
 	doc.query("#status").innerText = "神秘状态: " + statusTable[status];
 	doc.query("#runMode").innerText = "运行模式: " + (runMode ? runMode : "?")
 	doc.query("#apMode").innerText = "热点模式: " + (apMode == true ? "已开启" : apMode == false ? "已关闭" : "?")
-	doc.query("#cpu").innerText = "CPU占用率: " + (cpu ? cpu : 0 + "%")
+	doc.query("#cpu").innerText = "CPU占用率: " + (cpu ? cpu + "%" : 0 + "%")
 	buttonSwitchStatus("#start", "buttonDisable", button[0] ? button[0] : false, 500);
 	buttonSwitchStatus("#restart", "buttonDisable", button[1] ? button[1] : false, 500);
 	buttonSwitchStatus("#stop", "buttonDisable", button[2] ? button[2] : false, 500);
@@ -107,11 +107,13 @@ export function index(){
 					doc.createElement("p")
 					.then(p => {
 						p.id = "status";
+						p.innerText = "神秘状态: ?"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "runMode";
+						p.innerText = "运行模式: ?"
 						div4.append(p);
 					})
 					doc.createElement("p")
@@ -123,20 +125,21 @@ export function index(){
 					doc.createElement("p")
 					.then(p => {
 						p.id = "cpu";
+						p.innerText = "CPU占用率: 0%"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "connect";
-						p.innerText = "连接数量: ?"
+						p.innerText = "连接数量: 0"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "apMode";
+						p.innerText = "热点模式: ?"
 						div4.append(p);
 					})
-					updateStatus()
 					div3.append(div4);
 				});
 				// 第一个信息栏 > 状态栏：“控制中心” > controller
@@ -303,43 +306,39 @@ export function index(){
 	.then(div => document.getElementById("app").append(div));
 	// 状态检测
 	function refreshStatus(){
-		console.log("updateStatus")
 		panel.kernel()
 		.then(json => json.json())
 		.then(status => {
 			if(status.status === "working") {
 				window.clashapi = new clash(status.secret)
 				try {
-					console.log(status)
-					refreshInfo(status.status);
+					clashapi.connections().then(req => req.json()).then(connects => {
+						doc.query("#res").innerText = `内存占用: ${toMemory(connects.memory)}`;
+						doc.query("#connect").innerText = `连接数量: ${connects.connections != undefined ? connects.connections.length : 0}`;
+						if(window.uploadTotal != undefined && window.downloadTotal){
+							doc.query("#speedUpload").innerText = `${toMemory(connects.uploadTotal - window.uploadTotal)}`;
+							doc.query("#speedDownload").innerText = `${toMemory(connects.downloadTotal - window.downloadTotal)}`;
+						}
+						window.uploadTotal = connects.uploadTotal;
+						window.downloadTotal = connects.downloadTotal;
+					})
 				} catch(err){
-					logging.error(err);
 					doc.query("#res").innerText = "内存占用: 0B";
 					doc.query("#connect").innerText = "连接数量: 0";
 					doc.query("#speedUpload").innerText = "0B";
 					doc.query("#speedDownload").innerText = "0B";
 				}
+			} else {
+				doc.query("#res").innerText = "内存占用: 0B";
+				doc.query("#connect").innerText = "连接数量: 0";
+				doc.query("#speedUpload").innerText = "0B";
+				doc.query("#speedDownload").innerText = "0B";
 			}
 			updateStatus(status.status, status.workMode, status.apMode, status.cpu, buttonStatusTable[status.status])
 		})
 		.catch(err => {
 			return;
 		});
-	}
-	function refreshInfo(status){
-		if(status == "working"){
-			if(window.clashapi == undefined) return;
-			clashapi.connections().then(req => req.json()).then(connects => {
-				doc.query("#res").innerText = `内存占用: ${toMemory(connects.memory)}`;
-				doc.query("#connect").innerText = `连接数量: ${connects.connections.length ? connects.connections.length : 0}`;
-				if(window.uploadTotal != undefined && window.downloadTotal){
-					doc.query("#speedUpload").innerText = `${toMemory(connects.uploadTotal - window.uploadTotal)}`;
-					doc.query("#speedDownload").innerText = `${toMemory(connects.downloadTotal - window.downloadTotal)}`;
-				}
-				window.uploadTotal = connects.uploadTotal;
-				window.downloadTotal = connects.downloadTotal;
-			}).catch(err => logging.error(err))
-		}
 	}
 	// 第一个信息栏
 	refreshStatus();
