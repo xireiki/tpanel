@@ -58,10 +58,6 @@ function optionPage(o, e){
 }
 
 export function setting(){
-	if(document.getElementById("setting")){
-		return;
-	}
-	document.body.classList.add("no-scroll");
 	let options = [
 		{
 			id: 1,

@@ -3,8 +3,6 @@ import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
 export function packageListOption(e){
-  if(document.getElementById("packageListOption")) return;
-  // 盒子
   doc.createElement("div")
   .then(div => {
     div.id = "packageListOption";
