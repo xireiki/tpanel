@@ -1,3 +1,4 @@
+import { clash } from "../api.js";
 import { doc, config, toMemory } from "../document.js";
 import { goto } from "../route.js";
 import { logging } from "../logging.js";
@@ -46,11 +47,11 @@ const statusTable = {
 }
 
 const buttonStatusTable = {
-	"working": [true],
+	"working": [true, false, false],
 	"starting": [true, true, true],
 	"restarting": [true, true, true],
 	"stopping": [true, true, true],
-	"stopped": [, true, true]
+	"stopped": [false, true, true]
 }
 
 function buttonSwitchStatus(select, animation, enable, timeout = 1000){
@@ -60,7 +61,7 @@ function buttonSwitchStatus(select, animation, enable, timeout = 1000){
 	}
 }
 
-function updateStatus(status, runMode, apMode, cpu, button){
+function updateStatus(status, runMode, apMode, cpu, button = []){
 	doc.query("#status").innerText = "神秘状态: " + statusTable[status];
 	doc.query("#runMode").innerText = "运行模式: " + (runMode ? runMode : "?")
 	doc.query("#apMode").innerText = "热点模式: " + (apMode == true ? "已开启" : apMode == false ? "已关闭" : "?")
@@ -135,6 +136,7 @@ export function index(){
 						p.id = "apMode";
 						div4.append(p);
 					})
+					updateStatus()
 					div3.append(div4);
 				});
 				// 第一个信息栏 > 状态栏：“控制中心” > controller
@@ -301,11 +303,14 @@ export function index(){
 	.then(div => document.getElementById("app").append(div));
 	// 状态检测
 	function refreshStatus(){
+		console.log("updateStatus")
 		panel.kernel()
 		.then(json => json.json())
 		.then(status => {
 			if(status.status === "working") {
+				window.clashapi = new clash(status.secret)
 				try {
+					console.log(status)
 					refreshInfo(status.status);
 				} catch(err){
 					logging.error(err);
@@ -323,7 +328,7 @@ export function index(){
 	}
 	function refreshInfo(status){
 		if(status == "working"){
-			if(clashapi == undefined) return;
+			if(window.clashapi == undefined) return;
 			clashapi.connections().then(req => req.json()).then(connects => {
 				doc.query("#res").innerText = `内存占用: ${toMemory(connects.memory)}`;
 				doc.query("#connect").innerText = `连接数量: ${connects.connections.length ? connects.connections.length : 0}`;

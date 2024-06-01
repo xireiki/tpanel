@@ -1,4 +1,4 @@
-import { maho, clash } from "./api.js";
+import { maho } from "./api.js";
 import { verifyAuthorizationCode } from "./document.js";
 
 import { index } from "./pages/home.js"
