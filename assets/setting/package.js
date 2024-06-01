@@ -13,9 +13,9 @@ export function packageListOption(e){
     doc.createElement("p")
     .then(p => {
       p.innerText = "应用名单";
-      p.onclick = () => {
+      p.addEventListener("click", () => {
         goto("/setting");
-      }
+      })
       div.append(p);
     });
     panel.list().then(json => json.json())

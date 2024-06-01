@@ -1,18 +1,21 @@
-import { goto } from "./route.js";
+import { goto, loadPage } from "./route.js";
 
 if(localStorage.getItem("mystery") == undefined){
-  fetch("/config.json")
-  .then(response => response.json())
-  .then(json => {
-    localStorage.setItem("mystery", JSON.stringify(json));
-  })
+	localStorage.setItem("mystery", JSON.stringify({
+		log: true,
+		speed: false,
+		shortly: false,
+		YiYan: true
+	}));
 }
 
 window.addEventListener("load", () => {
 	window.addEventListener("popstate", e => {
 		if (e.state) {
-			goto(e.state.path);
+			loadPage(e.state.path);
 		}
 	})
-	goto(window.location.pathname);
+	const path = window.location.pathname;
+	history.replaceState({path: path}, '', document.location.href);
+	loadPage(path);
 })

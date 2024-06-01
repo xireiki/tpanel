@@ -379,7 +379,7 @@ export function index(){
 				doc.createElement("div")
 				.then(container => {
 					container.classList.add("container");
-					if(i.type == "http" && i.subInfo.support){
+					if(i.type == "remote" && i.subInfo.support){
 						// 上传流量
 						doc.createElement("p")
 						.then(subinfo => {

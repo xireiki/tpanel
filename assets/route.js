@@ -27,7 +27,7 @@ const pages = {
 	"/setting/dnsServer": dnsServer
 }
 
-function loadPage(path){
+export function loadPage(path){
 	document.querySelector('#app').innerHTML= "";
 	if(path != "/auth" && (!window.panel || !window.clashapi)){
 		if(localStorage.getItem("auth") != null){
