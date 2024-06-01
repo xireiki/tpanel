@@ -1,6 +1,7 @@
 import { doc, config } from "../document.js";
 import { maho } from "../api.js";
 import { logging } from "../logging.js";
+import { goto } from "../route.js";
 
 export function mystery(e){
   if(document.getElementById("settingBox")) return;
@@ -15,8 +16,7 @@ export function mystery(e){
         p.addEventListener("click", (event) => {
           div.setAttribute("style", "animation: FadeOut 0.1s ease-in forwards;");
           setTimeout(() => {
-            div.remove();
-            window.childPage = false;
+            goto("/setting");
           }, 100);
         });
         div.append(p);
@@ -509,7 +509,7 @@ export function mystery(e){
         });
         div.append(option)
       });
-      doc.query("body").append(div);
+      document.querySelector('#app').append(div);
     });
   }).catch(err => {
     logging.error(ert);

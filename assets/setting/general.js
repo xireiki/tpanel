@@ -1,4 +1,5 @@
 import { doc, config } from "../document.js";
+import { goto } from "../route.js";
 
 export function general(e){
   if(document.getElementById("general")) return;
@@ -14,8 +15,7 @@ export function general(e){
       p.addEventListener("click", (event) => {
         div.setAttribute("style", "animation: FadeOut 0.1s ease-in forwards;");
         setTimeout(() => {
-          div.remove();
-          window.childPage = false;
+          goto("/setting");
         }, 100);
       });
       div.append(p);
@@ -128,6 +128,6 @@ export function general(e){
         div.append(option)
       });
     }
-    document.body.append(div);
+    document.querySelector('#app').append(div);
   });
 }

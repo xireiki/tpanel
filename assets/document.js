@@ -77,11 +77,11 @@ export function verifyAuthorizationCode(auth = localStorage.auth || "node"){
   return new Promise((resolve, reject) => {
     let p = new maho(auth);
     p.check().then(() => {
-      resolve({key: 0, msg: "The authorization code is correct"});
+      resolve(p);
     })
     .catch(err => {
       console.log(err);
-      reject({key: 2, msg: "Unable to connect to server"});
+      reject(err);
     });
   });
 }

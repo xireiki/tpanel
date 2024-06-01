@@ -1,8 +1,9 @@
 import { doc, config } from "../document.js";
 import { logging } from "../logging.js";
+import { goto } from "../route.js";
 
 export function packageListOption(e){
-  if(document.getElementById("")) return;
+  if(document.getElementById("packageListOption")) return;
   // 盒子
   doc.createElement("div")
   .then(div => {
@@ -12,13 +13,9 @@ export function packageListOption(e){
     doc.createElement("p")
     .then(p => {
       p.innerText = "应用名单";
-      p.addEventListener("click", (event) => {
-        div.setAttribute("style", "animation: FadeOut 0.1s ease-in forwards;");
-        setTimeout(() => {
-          div.remove();
-          window.childPage = false;
-        }, 100);
-      });
+      p.onclick = () => {
+        goto("/setting");
+      }
       div.append(p);
     });
     panel.list().then(json => json.json())
@@ -229,6 +226,6 @@ export function packageListOption(e){
         }
       })
     })
-    document.body.append(div);
+    document.querySelector('#app').append(div);
   });
 }
