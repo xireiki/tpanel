@@ -55,8 +55,8 @@
 :root {
   /* Color */
   --main-color: #66ccff;
-  --light-color: #ffffff;
-  --border-color: #ffffff;
+  --light-color: #66ccff;
+  --border-color: #66ccff;
   --button-color: #ffffff;
   --button-background-color: #66ccff;
   --button-disable-color: #111111;
@@ -93,7 +93,7 @@ html {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: cover;
-  background-image: url("/images/bg.png");
+  /* background-image: url("/images/bg.png"); */
 }
 body {
   width: 100%;
@@ -125,7 +125,8 @@ button:disabled {
 input[type="text"] {
   line-height: 1.1rem;
   font-size: 1.0rem;
-  color: white;
+  color: var(--main-color);
+  text-align: center;
   border: none;
   border-bottom: 2px solid var(--input-bottom-color);
   background: none;
@@ -152,25 +153,6 @@ input[type="number"]:focus {
 }
 .no-scroll {
   overflow: hidden;
-}
-.Mask {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  background-color: #00000050;
-  background-size: cover;
-  -webkit-background-size: cover 100%;
-  -o-background-size: cover 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: cover;
-  background-image: url("/images/bg.png");
 }
 /* label 开关 */
 .toggle {
@@ -244,13 +226,16 @@ select:focus {
 .authorization > input {
   width: 65%;
   transition: width 0.5s;
+  caret-color: var(--authorization-tip-color);
+  text-align: center;
+  color: var(--authorization-tip-color);
 }
 .authorization > input:hover {
   width: 70%;
 }
 /* 信息栏 */
 .outside {
-  width: 80%;
+  width: 95%;
   /* height: auto; */
   min-height: 30px;
   margin-top: 10px;
@@ -285,7 +270,7 @@ select:focus {
 }
 .controlCenter {
   display: black;
-  width: 95%;
+  width: 90%;
   margin: 10px auto;
   min-height: 130px;
   max-height: 200px;
@@ -294,7 +279,7 @@ select:focus {
   animation: FadeIn 0.5s ease-in forwards;
   border: var(--border-size) solid var(--border-color);
   word-break: break-all;
-  box-shadow: 0 0 5px var(--light-color);
+  box-shadow: 0 0 10px var(--light-color);
   background-color: var(--transparent-background-color);
 }
 .statusbar {
@@ -334,14 +319,14 @@ select:focus {
   min-height: 30px;
 }
 .speed {
-  width: 95%;
+  width: 90%;
   margin: 10px auto;
   border-radius: 15px;
   opacity: 0;
   animation: FadeIn 0.5s ease-in forwards;
   border: var(--border-size) solid var(--border-color);
   word-break: break-all;
-  box-shadow: 0 0 5px var(--light-color);
+  box-shadow: 0 0 10px var(--light-color);
   background-color: var(--transparent-background-color);
 }
 .speed > p {
@@ -357,7 +342,7 @@ select:focus {
   border-radius: 20px;
   border: var(--border-size) solid white;
   word-break: break-all;
-  box-shadow: 0 0 5px var(--light-color);
+  box-shadow: 0 0 10px var(--light-color);
   margin: 5px auto;
   margin-top: 20px;
   word-break: break-all;
@@ -381,7 +366,7 @@ select:focus {
   margin: 15px auto;
   border: var(--border-size) solid var(--border-color);
   border-radius: 5px;
-  box-shadow: 0px 0px 5px var(--light-color);
+  box-shadow: 0px 0px 10px var(--light-color);
   opacity: 0;
   animation: FadeIn 0.5s ease-in forwards;
   background-color: var(--transparent-background-color);
@@ -528,7 +513,7 @@ select:focus {
   position: fixed;
   width: 95%;
   min-height: 30px;
-  max-height: 80%;
+  max-height: 95%;
   left: 2%;
   right: 2%;
   top: 0%;
@@ -537,14 +522,14 @@ select:focus {
   overflow: scroll;
   border-radius: 25px;
   border: var(--border-size) solid var(--border-color);
-  box-shadow: 0px 0px 10px var(--light-color);
+  box-shadow: 0px 0px 25px var(--light-color);
   backdrop-filter: blur(10px);
   animation: FadeIn 0.2s ease-in forwards;
   background-color: var(--transparent-background-color);
 }
 .settingTitle {
   width: 80%;
-  font-size: 1.2em;
+  font-size: 1.8em;
   margin: 10px auto;
   text-align: center;
   font-weight: bold;
@@ -557,21 +542,21 @@ select:focus {
   position: relative;
 }
 .option {
-  width: 97%;
-  margin: 10px 0;
+  width: 91%;
+  margin: 10px 2%;
   border-radius: 5px;
   border: var(--border-size) solid var(--border-color);
   background-color: var(--transparent-background-color);
   word-break: break-all;
-  box-shadow: 0 0 5px var(--light-color);
-  padding: 1%;
+  box-shadow: 0 0 10px var(--light-color);
+  padding: 2%;
 }
 .optionTitle {
-  font-size: 1.2em;
+  font-size: 1.6em;
   color: var(--options-color);
 }
 .optionDescription {
-  font-size: .6em;
+  font-size: .8em;
   color: var(--options-description-color);
   text-stroke: var(--options-stroke-size) var(--options-stroke-color);
   -webkit-text-stroke: var(--options-stroke-size) var(--options-stroke-color);
@@ -580,7 +565,7 @@ select:focus {
 .settingBox {
   width: 93%;
   min-height: 30px;
-  max-height: 80%;
+  max-height: 95%;
   padding: 1%;
   position: fixed;
   top: 2%;
@@ -592,14 +577,14 @@ select:focus {
   border: var(--border-size) solid var(--border-color);
   background-color: var(--transparent-background-color);
   word-break: break-all;
-  box-shadow: 0 0 5px var(--light-color);
+  box-shadow: 0 0 35px var(--light-color);
   backdrop-filter: blur(10px);
   overflow: scroll;
   animation: FadeIn 0.2s ease-in forwards;
 }
 .settingBox > p {
   width: 80%;
-  font-size: 1.2em;
+  font-size: 1.6em;
   margin: 10px auto;
   text-align: center;
   font-weight: bold;
@@ -614,6 +599,7 @@ select:focus {
   margin: 2px 0;
   display: inline-block;
   vertical-align: middle;
+  font-size: 1.4em
 }
 .settingNameInput {
   width: 50%;
@@ -710,7 +696,7 @@ select:focus {
 .settingListBox {
   width: 93%;
   min-height: 30px;
-  max-height: 80%;
+  max-height: 95%;
   padding: 1%;
   position: fixed;
   top: 2%;
@@ -722,14 +708,14 @@ select:focus {
   border: var(--border-size) solid var(--border-color);
   background-color: var(--transparent-background-color);
   word-break: break-all;
-  box-shadow: 0 0 5px var(--light-color);
+  box-shadow: 0 0 35px var(--light-color);
   backdrop-filter: blur(10px);
   overflow: scroll;
   animation: FadeIn 0.2s ease-in forwards;
 }
 .settingListBox > p {
   width: 80%;
-  font-size: 1.2em;
+  font-size: 1.6em;
   margin: 10px auto;
   text-align: center;
   font-weight: bold;
@@ -742,16 +728,16 @@ select:focus {
   margin: 5px auto;
 }
 .everysub {
-  width: 40%;
+  width: 38%;
   padding: 2%;
-  margin: 5px 2%;
+  margin: 2% 3%;
   display: inline-block;
   vertical-align: middle;
   position: relative;
   border-radius: 15px;
   border: var(--border-size) solid var(--border-color);
   background-color: var(--transparent-background-color);
-  box-shadow: 0 0 5px var(--light-color);
+  box-shadow: 0 0 10px var(--light-color);
 }
 .everysub > p:first-child {
   font-size: 1.2em;

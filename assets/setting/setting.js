@@ -2,76 +2,24 @@ import { doc, config } from "../document.js";
 import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
-// function xxxOption(e){
-	// if(document.getElementById("")) return;
-	// // 盒子
-	// doc.createElement("div")
-	// .then(div => {
-		// div.id = "";
-		// div.classList.add("settingBox");
-		// // 标题
-		// doc.createElement("p")
-		// .then(p => {
-			// p.innerText = "";
-			// p.addEventListener("click", (event) => {
-				// div.setAttribute("style", "animation: FadeOut 0.1s ease-in forwards;");
-				// setTimeout(() => {
-					// div.remove();
-					// window.childPage = false;
-				// }, 100);
-			// });
-			// div.append(p);
-		// });
-		// ... 代码
-		// document.body.append(div);
-	// });
-// }
-
-function optionPage(o, e){
-	switch(o){
-		case 1:
-			goto("/setting/general")
-			break;
-		case 2:
-			goto("/setting/mystery");
-			break;
-		case 3:
-			goto("/setting/provider");
-			break;
-		case 4:
-			goto("/setting/outbounds");
-			break;
-		case 5:
-			goto("/setting/dnsServer");
-			break;
-		case 6:
-			goto("/setting/ntp");
-			break;
-		case 7:
-			goto("/setting/log");
-			break;
-		case 8:
-			goto("/setting/package");
-		default:
-			break;
-	}
-}
-
 export function setting(){
 	let options = [
 		{
 			id: 1,
 			name: "通用",
+			url: "/setting/general",
 			description: "本面板的设置。快点我！"
 		},
 		{
 			id: 2,
 			name: "神秘",
+			url: "/setting/mystery",
 			description: "神秘啊神秘~启动！"
 		},
 		{
 			id: 3,
 			name: "订阅",
+			url: "/setting/provider",
 			description: "订阅列表，你有几个机场？",
 			extra: function(description){
 				panel.subsList().then(req => req.json()).then(json => {
@@ -88,6 +36,7 @@ export function setting(){
 		{
 			id: 4,
 			name: "出站",
+			url: "/setting/outbounds",
 			description: "订阅分组？传送阵！喵",
 			extra: function(description){
 				panel.outbounds().then(req => req.json()).then(json => {
@@ -105,21 +54,25 @@ export function setting(){
 		{
 			id: 5,
 			name: "DNS",
+			url: "/setting/dnsServer",
 			description: "书灵身上一定有墨香！因为“腹有诗书气自华”。"
 		},
 		{
 			id: 6,
 			name: "NTP",
+			url: "/setting/ntp",
 			description: "NTP 时间服务器，用于校准时间。"
 		},
 		{
 			id: 7,
 			name: "日志",
+			url: "/setting/log",
 			description: "获取神秘日志，聆听神秘之音，奏响神秘乐章！"
 		},
 		{
 			id: 8,
-			name: "名单",
+			name: "黑/白名单",
+			url: "/setting/package",
 			description: "将垃圾应用加入指定名单，实现应用分流！"
 		}
 	]
@@ -143,7 +96,7 @@ export function setting(){
 						.then(option => {
 							option.classList.add("option");
 							option.addEventListener("click", () => {
-								optionPage(o.id, option);
+								goto(o.url);
 							});
 							doc.createElement("div")
 							.then(optionTitle => {

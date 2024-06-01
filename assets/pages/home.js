@@ -37,6 +37,39 @@ function generationLog(log){
 	});
 }
 
+const statusTable = {
+	"working": "工作中",
+	"starting": "启动中",
+	"restarting": "重启中",
+	"stopping": "停止中",
+	"stopped": "已停止"
+}
+
+const buttonStatusTable = {
+	"working": [true],
+	"starting": [true, true, true],
+	"restarting": [true, true, true],
+	"stopping": [true, true, true],
+	"stopped": [, true, true]
+}
+
+function buttonSwitchStatus(select, animation, enable, timeout = 1000){
+	let s = doc.query(select);
+	if(s.disabled != enable){
+		s.disabled = enable;
+	}
+}
+
+function updateStatus(status, runMode, apMode, cpu, button){
+	doc.query("#status").innerText = "神秘状态: " + statusTable[status];
+	doc.query("#runMode").innerText = "运行模式: " + (runMode ? runMode : "?")
+	doc.query("#apMode").innerText = "热点模式: " + (apMode == true ? "已开启" : apMode == false ? "已关闭" : "?")
+	doc.query("#cpu").innerText = "CPU占用率: " + (cpu ? cpu : 0 + "%")
+	buttonSwitchStatus("#start", "buttonDisable", button[0] ? button[0] : false, 500);
+	buttonSwitchStatus("#restart", "buttonDisable", button[1] ? button[1] : false, 500);
+	buttonSwitchStatus("#stop", "buttonDisable", button[2] ? button[2] : false, 500);
+}
+
 export function index(){
 	// 创建页面主框架
 	// 第一个信息栏
@@ -73,37 +106,33 @@ export function index(){
 					doc.createElement("p")
 					.then(p => {
 						p.id = "status";
-						p.innerText = "神秘状态: 跑丢了"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "runMode";
-						p.innerText = "工作模式: 不知道"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "res";
-						p.innerText = "内存占用: 不知道"
+						p.innerText = "内存占用: ?"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "cpu";
-						p.innerText = "CPU占用率: 0%"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "connect";
-						p.innerText = "连接数量: 不知道"
+						p.innerText = "连接数量: ?"
 						div4.append(p);
 					})
 					doc.createElement("p")
 					.then(p => {
 						p.id = "apMode";
-						p.innerText = "热点模式: 不知道"
 						div4.append(p);
 					})
 					div3.append(div4);
@@ -271,74 +300,22 @@ export function index(){
 	})
 	.then(div => document.getElementById("app").append(div));
 	// 状态检测
-	function buttonSwitchStatus(select, animation, enable, timeout = 1000){
-		let s = doc.query(select);
-		if(s.disabled != enable){
-			s.disabled = enable;
-		}
-	}
 	function refreshStatus(){
 		panel.kernel()
 		.then(json => json.json())
 		.then(status => {
-			switch(status.status){
-				case "working":
-					try {
-						refreshInfo(status.status);
-					} catch(err){
-						logging.error(err);
-						doc.query("#res").innerText = "内存占用: 0.00B";
-						doc.query("#connect").innerText = "连接数量: 0";
-						doc.query("#speedUpload").innerText = "0.00B";
-						doc.query("#speedDownload").innerText = "0.00B";
-					}
-					doc.query("#status").innerText = "神秘状态: 工作中";
-					doc.query("#runMode").innerText = `运行模式: ${status.workMode}`;
-					doc.query("#apMode").innerText = `热点模式: ${status.apMode ? "已开启" : "未开启"}`;
-					doc.query("#cpu").innerText = `CPU占用率: ${status.cpu}%`;
-					buttonSwitchStatus("#start", "buttonDisable", true, 500)
-					buttonSwitchStatus("#restart", "buttonEnable", false, 500);
-					buttonSwitchStatus("#stop", "buttonEnable", false, 500);
-					break;
-				case "restarting":
-					doc.query("#status").innerText = "神秘状态: 重启中";
-					doc.query("#runMode").innerText = "运行模式: 不知道";
-					doc.query("#apMode").innerText = "热点模式: 不知道";
-					doc.query("#cpu").innerText = "CPU占用率: 0%";
-					buttonSwitchStatus("#start", "buttonDisable", true, 500);
-					buttonSwitchStatus("#restart", "buttonDisable", true, 500);
-					buttonSwitchStatus("#stop", "buttonDisable", true, 500);
-					break;
-				case "stopping":
-					doc.query("#status").innerText = "神秘状态: 停止中";
-					doc.query("#runMode").innerText = "运行模式: 不知道";
-					doc.query("#apMode").innerText = "热点模式: 不知道";
-					doc.query("#cpu").innerText = "CPU占用率: 0%";
-					buttonSwitchStatus("#start", "buttonDisable", true, 500);
-					buttonSwitchStatus("#restart", "buttonDisable", true, 500);
-					buttonSwitchStatus("#stop", "buttonDisable", true, 500);
-					break;
-				case "stopped":
-					doc.query("#status").innerText = "神秘状态: 已停止";
-					doc.query("#runMode").innerText = "运行模式: 不知道";
-					doc.query("#apMode").innerText = "热点模式: 不知道";
-					doc.query("#cpu").innerText = "CPU占用率: 0%";
-					buttonSwitchStatus("#start", "buttonEnable", false, 500);
-					buttonSwitchStatus("#restart", "buttonDisable", true, 500);
-					buttonSwitchStatus("#stop", "buttonDisable", true, 500);
-					break;
-				case "starting":
-					doc.query("#status").innerText = "神秘状态: 启动中";
-					doc.query("#runMode").innerText = "运行模式: 不知道";
-					doc.query("#apMode").innerText = "热点模式: 不知道";
-					doc.query("#cpu").innerText = "CPU占用率: 0%";
-					buttonSwitchStatus("#start", "buttonDisable", true, 500);
-					buttonSwitchStatus("#restart", "buttonDisable", true, 500);
-					buttonSwitchStatus("#stop", "buttonDisable", true, 500);
-					break;
-				default:
-					break;
+			if(status.status === "working") {
+				try {
+					refreshInfo(status.status);
+				} catch(err){
+					logging.error(err);
+					doc.query("#res").innerText = "内存占用: 0B";
+					doc.query("#connect").innerText = "连接数量: 0";
+					doc.query("#speedUpload").innerText = "0B";
+					doc.query("#speedDownload").innerText = "0B";
+				}
 			}
+			updateStatus(status.status, status.workMode, status.apMode, status.cpu, buttonStatusTable[status.status])
 		})
 		.catch(err => {
 			return;

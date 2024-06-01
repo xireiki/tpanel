@@ -10,7 +10,7 @@ export function packageListOption(e){
     // 标题
     doc.createElement("p")
     .then(p => {
-      p.innerText = "应用名单";
+      p.innerText = "黑/白名单";
       p.addEventListener("click", () => {
         goto("/setting");
       })
@@ -128,6 +128,9 @@ export function packageListOption(e){
           return acc;
         }, {});
         for(const pn of package_list){
+          if(config("hideNameless") && !packages[pn]){
+            continue
+          }
           doc.createElement("div")
           .then(option => {
             doc.createElement("p")
@@ -175,6 +178,9 @@ export function packageListOption(e){
           });
         }
         for(let pn in packages){
+          if(config("hideNameless") && !packages[pn]){
+            continue
+          }
           if(package_list.some(item => item == pn)) continue;
           doc.createElement("div")
           .then(option => {

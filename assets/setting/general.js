@@ -94,6 +94,14 @@ export function general(e){
             // 逻辑
           }
         }
+      },
+      {
+        id: "hideNamelessApp",
+        key: "hideNameless",
+        name: "仅显示有名称应用",
+        action: function(event, selfObj){
+          config(selfObj.key, event.target.checked);
+        }
       }
     ];
     for(let o of toggleOptionList){

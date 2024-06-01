@@ -3,8 +3,6 @@ import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
 export function outboundProvider(e){
-	if(document.getElementById("subscribe")) return;
-	// 盒子
 	doc.createElement("div")
 	.then(div => {
 		div.id = "subscribe";

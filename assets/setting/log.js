@@ -3,8 +3,6 @@ import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
 export function log(){
-	if(document.getElementById("general")) return;
-	// 盒子
 	doc.createElement("div")
 	.then(div => {
 		div.id = "logOption";
