@@ -32,8 +32,9 @@ export class maho {
     "/api/box/route/rules", // 29, get
     "/api/box/exp", // 30, get
     "/api/box/exp/clash", // 31, get
-    "/api/box/exp/v2ray", // 32, get
-    "/api/box/config" // 33, put
+    "/api/box/exp/clash/modes", // 32, get
+    "/api/box/exp/v2ray", // 33, get
+    "/api/box/config" // 34, put
   ]
   #API(id, {method = "GET", data = null, promise = true, apid = null, callback = undefined} = {}){
     const headers = new Headers({
@@ -219,11 +220,14 @@ export class maho {
   expClash(promise = true, callback){
     return this.#API(31, {method: "GET", promise: promise, callback: callback});
   }
-  expV2ray(promise = true, callback){
+  expClashModes(promise = true, callback){
     return this.#API(32, {method: "GET", promise: promise, callback: callback});
   }
+  expV2ray(promise = true, callback){
+    return this.#API(33, {method: "GET", promise: promise, callback: callback});
+  }
   config(data = null, promise = true, callback){
-    return this.#API(33, {method: "PUT", data: data, promise: promise, callback: callback});
+    return this.#API(34, {method: "PUT", data: data, promise: promise, callback: callback});
   }
 }
 

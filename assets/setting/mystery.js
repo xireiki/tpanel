@@ -337,27 +337,19 @@ export function mystery(e){
                 setTimeout(() => input.checked = lastChecked, 500);
               });
             });
-            doc.createElement("option")
-            .then(option2 => {
-              option2.innerText = "全局"
-              option2.value = "Global";
-              if(json.mode == "Global") option2.selected = true;
-              select.append(option2);
-            });
-            doc.createElement("option")
-            .then(option2 => {
-              option2.innerText = "规则"
-              option2.value = "Rule";
-              if(json.mode == "Rule") option2.selected = true;
-              select.append(option2);
-            });
-            doc.createElement("option")
-            .then(option2 => {
-              option2.innerText = "直连"
-              option2.value = "Direct";
-              if(json.mode == "Direct") option2.selected = true;
-              select.append(option2);
-            });
+            panel.expClashModes(true)
+              .then(response => response.json())
+              .then(modes => {
+                for(let mode of modes){
+                  doc.createElement("option")
+				            .then(option2 => {
+				              option2.innerText = mode;
+				              option2.value = mode;
+				              if(json.mode == mode) option2.selected = true;
+				              select.append(option2);
+				            });
+                }
+              })
             modeForm.append(select);
           });
           option.append(modeForm);
