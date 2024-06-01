@@ -468,7 +468,7 @@ export function index(){
 								if(i.subInfo.info.expire == 0){
 									span.innerText = "不限时";
 								} else {
-									let date = new Date(i.subInfo.info.expire);
+									let date = new Date(i.subInfo.info.expire * 1000);
 									span.innerText = `${String(date.getFullYear()).slice(2)}/${date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}/${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`;
 								}
 								subinfo.append(span);
