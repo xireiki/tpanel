@@ -95,11 +95,13 @@ export class maho {
       return new Promise((resolve, reject) => {
         req.then(r => {
           if(r.ok){
-            resolve(true, r);
+            resolve(r);
           } else {
-            reject(false, r);
+            reject(new Error("Unauthorization"));
           }
-        });
+        }).catch(err => {
+        	reject(err)
+        })
       });
     }
     req.then(r => {

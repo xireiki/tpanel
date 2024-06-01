@@ -46,9 +46,10 @@ export function auth(){
 								goto("/");
 							})
 							.catch(err => {
-								if(err.key == 1){
+								console.log(err)
+								if("Unauthorization" === err.message){
 									switchError("授权码错误！");
-								} else if(err.key == 2){
+								} else if(err){
 									switchError("无法连接神秘后端");
 								}
 							})
