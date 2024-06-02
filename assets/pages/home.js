@@ -280,6 +280,10 @@ export function index(){
 				console.log(err);
 			})
 			window.logUpdateInterval = setInterval(() => {
+				if(location.pathname != "/"){
+					clearInterval(window.logUpdateInterval)
+					return
+				}
 				panel.log().then(req => req.json()).then(text => {
 					if(window.logUpdatetimeStamp != text){
 						window.logUpdatetimeStamp = text;
@@ -346,6 +350,10 @@ export function index(){
 	// 第一个信息栏
 	refreshStatus();
 	window.refreshStatusInterval = setInterval(() => {
+		if(location.pathname != "/"){
+			clearInterval(window.refreshStatusInterval)
+			return
+		}
 		refreshStatus();
 	}, 1000);
 	// 加载第二个信息栏
