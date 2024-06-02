@@ -79,12 +79,14 @@ export function packageListOption(e){
 									setTimeout(() => input.checked = json.mode == "white" ? true : false, 500);
 								} else {
 									for(let p of package_list){
-										document.getElementById(p).checked = false;
+										const element = document.getElementById(p)
+										if(element) element.checked = false;
 									}
 									json.mode = json.mode == "white" ? "black" : "white";
 									package_list = json.mode == "white" ? json.white : json.black;
 									for(let p of package_list){
-										document.getElementById(p).checked = true;
+										const element = document.getElementById(p);
+										if(element) element.checked = true;
 									}
 								}
 							}).catch(err => {
