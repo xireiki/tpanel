@@ -117,11 +117,21 @@ button {
   box-shadow: 0 0 5px var(--light-color);
   backdrop-filter: blur(6px);
   transition: color 0.5s, background-color 0.5s;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
 }
 button:disabled {
   background-color: var(--button-disable-background-color);
   color: var(--button-disable-color);
   box-shadow: 0 0 5px var(--button-disable-background-color);
+}
+button:active {
+  background-color: #44aadd;
+  color: #dddddd;
+  box-shadow: 0 0 5px #44aadd;
 }
 input[type="text"] {
   line-height: 1.1rem;
@@ -609,11 +619,20 @@ select:focus {
 .settingBox > button {
   display: inline-block;
   position: relative;
+  width: 88%;
+  padding: 10px;
+  min-height: 50px;
+  margin-left: 6%;
+  margin-top: 1%;
+  font-size: 1em;
+}
+.settingBox > button:active {
   width: 90%;
   padding: 10px;
-  min-height: 40px;
+  background-color: #44aadd;
+  color: #dddddd;
   margin-left: 5%;
-  margin-top: 1%;
+  font-size: 1.1em;
 }
 .settingBox > div > div {
   width: 20%;
@@ -690,7 +709,40 @@ select:focus {
 #authorizationKeyBox > input[type="text"]:hover {
   width: 100%;
 }
-#modeForm {
+#inet4_range_name {
+  width: 50%;
+}
+#inet4_range_box {
+  width: 50%;
+  text-align: center;
+  margin: 2px auto;
+  right: 0;
+}
+#inet4_range_box > input[type="text"] {
+  width: 95%;
+  transition: width 0.5s;
+}
+#inet4_range_box > input[type="text"]:hover {
+  width: 100%;
+}
+#inet6_range_name {
+  width: 50%;
+}
+#inet6_range_box {
+  width: 50%;
+  text-align: center;
+  margin: 2px auto;
+  right: 0;
+}
+#inet6_range_box > input[type="text"] {
+  width: 95%;
+  transition: width 0.5s;
+  resize: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+#inet6_range_box > input[type="text"]:hover {
+  width: 100%;
 }
 #boxConfigBox {
   background: blue;

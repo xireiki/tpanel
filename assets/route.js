@@ -12,7 +12,7 @@ import { log } from "./setting/log.js";
 import { ntp } from "./setting/ntp.js";
 import { outboundProvider, outboundProviderEdit } from "./setting/outbound-provider.js";
 import { outbounds, outboundEdit } from "./setting/outbounds.js";
-import { dns, dnsServer } from "./setting/dns.js";
+import { dns, dnsServer, fakeip } from "./setting/dns.js";
 
 const pages = {
 	"/": index,
@@ -29,7 +29,8 @@ const pages = {
 	"/setting/outbounds": outbounds,
 	"/setting/outbounds/:id": outboundEdit,
 	"/setting/dns": dns,
-	"/setting/dns/server": dnsServer
+	"/setting/dns/server": dnsServer,
+	"/setting/dns/fakeip": fakeip
 }
 
 function getTargetRoute(path) {
@@ -43,39 +44,6 @@ function getTargetRoute(path) {
 	}
 	return [];
 }
-
-// export function loadPage(path){
-	// document.querySelector('#app').innerHTML= "";
-	// if(path != "/auth" && (!window.panel || !window.clashapi)){
-		// if(localStorage.getItem("auth") != null){
-			// verifyAuthorizationCode()
-				// .then(pan => {
-					// window.panel = pan;
-					// let [newPath, func, args] = getTargetRoute(path);
-					// if(newPath){
-						// return func();
-					// } else {
-						// return goto("/404", true)
-					// }
-				// })
-				// .catch(err => {
-					// console.error(err)
-					// return goto("/auth", true)
-				// })
-		// } else {
-			// return goto("/auth", true)
-		// }
-	// } else {
-		// let [newPath, func, args] = getTargetRoute(path);
-		// if(newPath === path){
-			// func()
-		// } else if(newPath != path){
-			// func(...args)
-		// } else {
-			// pages["/404"]();
-		// }
-	// }
-// }
 
 export function loadPage(path){
 	document.querySelector('#app').innerHTML= "";
