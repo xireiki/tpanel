@@ -1,4 +1,4 @@
-const CacheVersion = 6;
+const CacheVersion = 7;
 const CacheName = "shenmi_v" + CacheVersion;
 const CacheList = [
 	"/",
