@@ -5,7 +5,6 @@ const CacheList = [
 	"/index.html",
 	"/assets/index.js",
 	"/assets/index.css",
-	"/images/bg.png",
 	"/images/maho.gif"
 ]
 
@@ -41,7 +40,7 @@ this.addEventListener("fetch", e => {
 	}
 	if(url.pathname.startsWith("/auth") || url.pathname.startsWith("/setting") || url.pathname.startsWith("/404") || url.pathname === "/"){
 		let pageRequest = new Request("/");
-		e.respondWith(caches.match(pageRequest).then(response => {
+		e.respondWith(caches.match(pageRequest, { ignoreSearch: true }).then(response => {
 			return response || fetch(pageRequest)
 		}))
 	} else {

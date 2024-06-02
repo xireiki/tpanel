@@ -72,248 +72,65 @@ function updateStatus(status, runMode, apMode, cpu, button = []){
 	buttonSwitchStatus("#stop", "buttonDisable", button[2] ? button[2] : false, 500);
 }
 
-export function index(){
-	if(!window.panel){
-		return getPanel(index)
+function setDrag(father, children){
+	for(const child of children){
+		child.setAttribute("draggable", true);
 	}
-	// 第一个信息栏
-	doc.createElement("div")
-	.then(div => {
-		div.classList.add("outside");
-		div.id = "info";
-		// 第一个信息栏 > 神秘 GIF 动图
-		doc.createElement("div")
-		.then(div2 => {
-			div2.classList.add("img_box");
-			doc.createElement("img")
-			.then(img => {
-				img.src = "/images/maho.gif";
-				img.addEventListener("click", () => {
-					goto("/setting")
-				});
-				div2.append(img)
-			});
-			div.append(div2);
-		})
-		// 第一个信息栏 > 状态栏：“控制中心”
-		doc.createElement("div")
-		.then(div2 => {
-			div2.classList.add("controlCenter");
-			// 第一个信息栏 > 状态栏：“控制中心” > statusbar
-			doc.createElement("div")
-			.then(div3 => {
-				div3.id = "statusbar";
-				div3.classList.add("statusbar");
-				// 第一个信息栏 > 状态栏：“控制中心” > statusbar > status 信息
-				doc.createElement("div")
-				.then(div4 => {
-					doc.createElement("p")
-					.then(p => {
-						p.id = "status";
-						p.innerText = "神秘状态: ?"
-						div4.append(p);
-					})
-					doc.createElement("p")
-					.then(p => {
-						p.id = "runMode";
-						p.innerText = "运行模式: ?"
-						div4.append(p);
-					})
-					doc.createElement("p")
-					.then(p => {
-						p.id = "res";
-						p.innerText = "内存占用: ?"
-						div4.append(p);
-					})
-					doc.createElement("p")
-					.then(p => {
-						p.id = "cpu";
-						p.innerText = "CPU占用率: 0%"
-						div4.append(p);
-					})
-					doc.createElement("p")
-					.then(p => {
-						p.id = "connect";
-						p.innerText = "连接数量: 0"
-						div4.append(p);
-					})
-					doc.createElement("p")
-					.then(p => {
-						p.id = "apMode";
-						p.innerText = "热点模式: ?"
-						div4.append(p);
-					})
-					div3.append(div4);
-				});
-				// 第一个信息栏 > 状态栏：“控制中心” > controller
-				doc.createElement("div")
-				.then(div3 => {
-					div3.id = "controller";
-					div3.classList.add("controller");
-					doc.createElement("button")
-					.then(button => {
-						button.addEventListener("click", (event) => {
-							// 启动神秘
-							panel.kernel({method: "start"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
-						});
-						button.id = "start";
-						button.classList.add("button");
-						button.innerText = "启动";
-						div3.append(button);
-					})
-					doc.createElement("button")
-					.then(button => {
-						button.addEventListener("click", () => {
-							// 重启神秘
-							panel.kernel({method: "restart"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
-						});
-						button.id = "restart";
-						button.classList.add("button");
-						button.innerText = "重启";
-						div3.append(button);
-					});
-					doc.createElement("button")
-					.then(button => {
-						button.addEventListener("click", () => {
-							// 关闭神秘
-							panel.kernel({method: "stop"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
-						});
-						button.id = "stop";
-						button.classList.add("button");
-						button.innerText = "停止";
-						div3.append(button);
-					})
-					div2.append(div3);
-				});
-				div2.append(div3);
-			});
-			// 速率显示
-			doc.createElement("div")
-			.then(speed => {
-				if(!config("speed")) speed.style.display = "none";
-				speed.id = "speed";
-				speed.classList.add("speed");
-				doc.createElement("p")
-				.then(p => {
-					doc.createElement("span").then(span => {
-						span.classList.add("speedIcon");
-						span.innerText = "↑";
-						p.append(span);
-					});
-					doc.createElement("span").then(span => {
-						span.id = "speedUpload";
-						span.classList.add("speedText");
-						span.innerText = "0.00B";
-						p.append(span);
-					});
-					speed.append(p);
-				});
-				doc.createElement("p")
-				.then(p => {
-					doc.createElement("span").then(span => {
-						span.classList.add("speedIcon");
-						span.innerText = "↓";
-						p.append(span);
-					});
-					doc.createElement("span").then(span => {
-						span.id = "speedDownload";
-						span.classList.add("speedText");
-						span.innerText = "0.00B";
-						p.append(span);
-					});
-					speed.append(p);
-				});
-				div.append(speed);
-			});
-			div.append(div2);
+	
+}
+
+function createSubInfo(cls, icon, data, father){
+	doc.createElement("p", {class: [cls]}, father)
+		.then(subinfo => {
+			doc.createElement("span", {class: ["infoIcon"], innerText: icon}, subinfo)
+			doc.createElement("span", {class: ["infoText"], innerText: data}, subinfo)
 		});
-		doc.query("#app").append(div);
-	});
-	// 第二个信息栏
-	doc.createElement("div")
-	.then(div => {
-		div.classList.add("outside");
-		div.id = "subs";
-		doc.createElement("p")
-		.then(p => {
-			if(!config("YiYan")) p.style.display = "none";
-			p.id = "jinrishici-sentence";
-			p.innerText = "点我拉取所有机场"
-			p.classList.add("yiyan");
-			p.addEventListener("click", event => {
-				panel.subsInfos({name: "all"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
-			});
-			if(!document.querySelector('#yiyan')){
-				doc.createElement("script")
-				.then(s => {
-					s.src = "https://sdk.jinrishici.com/v2/browser/jinrishici.js";
-					s.id = "yiyan"
-					document.body.append(s);
-				});
-			}
-			div.append(p)
-		})
-		setInterval(() => {
-			if(window.jirishici == undefined)return;
-			jinrishici.load(result => {
-				doc.query("#jinrishici-sentence").innerText = result.data.content;
-			});
-		}, 30000);
-		return div
-	})
-	.then(div => document.getElementById("app").append(div));
-	// log 显示栏
-	doc.createElement("div")
-	.then(div => {
-		if(!config("log")) div.style.display = "none";
-		div.classList.add("outside");
-		div.id = "log";
-		doc.createElement("div")
-		.then(log => {
-			log.classList.add("logs");
-			log.id = "logBox";
-			panel.logDetails().then(req => req.json()).then(json => {
-				for(let l of json){
-					generationLog(l).then(p => log.append(p))
-				}
-			}).catch(err => {
-				console.log(err);
+}
+
+function createContainer(info, father){
+	const expData = info.subInfo.info.expire == 0 ? "不限时" : (function(){
+		const date = new Date(info.subInfo.info.expire * 1000);
+		return `${String(date.getFullYear()).slice(2)}/${date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}/${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`;
+	})()
+	const date2 = new Date(info.subInfo.timeStamp);
+	const updData = `${date2.getHours() < 10 ? '0' + date2.getHours() : date2.getHours()}:${date2.getMinutes() < 10 ? '0' + date2.getMinutes() : date2.getMinutes()}`;
+	createSubInfo("uploadFlowRate", "↑", toMemory(info.subInfo.info.upload), father)
+	createSubInfo("downloadFlowRate", "↓", toMemory(info.subInfo.info.download), father)
+	createSubInfo("usedFlowRate", "⇵", toMemory(info.subInfo.info.upload + info.subInfo.info.download), father)
+	createSubInfo("totalFlowRate", "◔", toMemory(info.subInfo.info.total), father)
+	createSubInfo("expireDate", "↹", expData, father)
+	createSubInfo("updateTime", "↺", updData, father)
+}
+
+function refreshProviders(infos){
+	const subs = doc.query("#subs")
+	const subList = []
+	for(let i of infos.providers){
+		doc.createElement("div", {class: ["subs"]}, subs)
+			.then(div => {
+				subList.push(div)
+				doc.createElement("p", {innerText: i.name, class: ["subsTitle"]}, div)
+				doc.createElement("div", {class: ["container"]}, div)
+					.then(container => {
+						if(i.type == "remote" && i.subInfo.support){
+							createContainer(i, container)
+						} else if(i.type == "remote" && !i.subInfo.support){
+							doc.createElement("p", {innerText: "无法查询使用情况", class: ["httpFlowRate"]}, container)
+							const date = new Date(i.subInfo.timeStamp);
+							createSubInfo("httpUpdateTime", "↺", `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`, container)
+						} else {
+							doc.createElement("p", {innerText: "本地配置", class: ["fileFlowRate"]}, container)
+						}
+					})
 			})
-			window.logUpdateInterval = setInterval(() => {
-				if(location.pathname != "/"){
-					clearInterval(window.logUpdateInterval)
-					return
-				}
-				panel.log().then(req => req.json()).then(text => {
-					if(window.logUpdatetimeStamp != text){
-						window.logUpdatetimeStamp = text;
-						panel.logDetails().then(req => req.json()).then(json => {
-							for(let l of json){
-								if(doc.query(`#log_${l.id.split("-").join("")}`).length == 0){
-									generationLog(l)
-									.then(p => {
-										log.append(p);
-										log.scrollTop = log.scrollHeight + log.offsetHeight;
-									})
-								}
-							}
-						}).catch(err => {
-							console.log(err)
-						});
-						log.scrollTop = log.scrollHeight + log.offsetHeight;
-					}
-				}).catch(err => {
-					logging.error(err);
-				});
-			}, 1000);
-			div.append(log)
-		})
-		return div
-	})
-	.then(div => document.getElementById("app").append(div));
-	// 状态检测
-	function refreshStatus(){
-		panel.kernel()
+	}
+	if(config("subsOrder")){
+		setDrag(subs, doc.query(".subs"))
+	}
+}
+
+function refreshStatus(){
+	panel.kernel()
 		.then(json => json.json())
 		.then(status => {
 			if(status.status === "working") {
@@ -345,9 +162,141 @@ export function index(){
 		})
 		.catch(err => {
 			return;
-		});
+		})
+}
+
+export function index(){
+	if(!window.panel){
+		return getPanel(index)
 	}
 	// 第一个信息栏
+	doc.createElement("div", {id: "info", class: ["outside"]}, doc.query("#app"))
+		.then(div => {
+			doc.createElement("div", {class: ["img_box"]}, div)
+				.then(div2 => {
+					doc.createElement("img", {src: "/images/maho.gif", onclick: () => {goto("/setting")}}, div2)
+				})
+			doc.createElement("div", {class: ["controlCenter"]}, div)
+				.then(div2 => {
+					doc.createElement("div", {id: "statusbar", class: ["statusbar"]}, div2)
+					.then(div3 => {
+						doc.createElement("div", null, div3)
+							.then(div4 => {
+								doc.createElement("p", {id: "status", innerText: "神秘状态: ?"}, div4)
+								doc.createElement("p", {id: "runMode", innerText: "运行模式: ?"}, div4)
+								doc.createElement("p", {id: "res", innerText: "内存占用: ?"}, div4)
+								doc.createElement("p", {id: "cpu", innerText: "CPU占用率: 0%"}, div4)
+								doc.createElement("p", {id: "connect", innerText: "连接数量: 0"}, div4)
+								doc.createElement("p", {id: "apMode", innerText: "热点模式: ?"}, div4)
+							})
+						doc.createElement("div", {id: "controller", class: ["controller"]}, div2)
+						.then(div3 => {
+							doc.createElement("button", {id: "start", class: ["button"], innerText: "启动"}, div3)
+							.then(button => {
+								button.addEventListener("click", (event) => {
+									panel.kernel({method: "start"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
+								});
+							})
+							doc.createElement("button", {id: "restart", class: ["button"], innerText: "重启"}, div3)
+							.then(button => {
+								button.addEventListener("click", () => {
+									panel.kernel({method: "restart"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
+								});
+							});
+							doc.createElement("button", {id: "stop", class: ["button"], innerText: "停止"}, div3)
+							.then(button => {
+								button.addEventListener("click", () => {
+									panel.kernel({method: "stop"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
+								});
+							})
+						});
+					});
+					doc.createElement("div", {id: "speed", class: ["speed"]}, div)
+						.then(speed => {
+							if(!config("speed")) speed.style.display = "none";
+							doc.createElement("p", null, speed)
+								.then(p => {
+									doc.createElement("span", {innerText: "↑", class: ["speedIcon"]}, p)
+									doc.createElement("span", {innerText: "0.00B", class: ["speedText"], id: "speedUpload"}, p)
+								});
+							doc.createElement("p", null, speed)
+								.then(p => {
+									doc.createElement("span", {innerText: "↓", class: ["speedIcon"]}, p)
+									doc.createElement("span", {innerText: "0.00B", class: ["speedText"], id: "speedDownload"}, p)
+								})
+						})
+				})
+			})
+	// 第二个信息栏
+	doc.createElement("div", {id: "subs", class: ["outside"]}, document.getElementById("app"))
+		.then(div => {
+			doc.createElement("p", {id: "jinrishici-sentence", innerText: "点我拉取所有机场", class: ["yiyan"]}, div)
+				.then(p => {
+					if(!config("YiYan")) p.style.display = "none";
+					p.addEventListener("click", event => {
+						panel.subsInfos({name: "all"}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
+					});
+					if(!document.querySelector('#yiyan')){
+						doc.createElement("script")
+							.then(s => {
+								s.src = "https://sdk.jinrishici.com/v2/browser/jinrishici.js";
+								s.id = "yiyan"
+								document.body.append(s);
+							});
+					}
+				})
+			window.jinrishiciInterval = setInterval(() => {
+				if(window.jirishici == undefined) return;
+				if(location.pathname !=="/") clearInterval(window.jinrishiciInterval)
+				jinrishici.load(result => {
+					doc.query("#jinrishici-sentence").innerText = result.data.content;
+				});
+			}, 30000);
+		})
+	panel.subsInfos().then(json => json.json()).then(infos => {
+		refreshProviders(infos);
+	}).catch(err => console.error(err))
+	// log 显示栏
+	doc.createElement("div", {id: "log", class: ["outside"]}, document.getElementById("app"))
+	.then(div => {
+		if(!config("log")) div.style.display = "none";
+		doc.createElement("div", {id: "logBox", class: ["logs"]}, div)
+			.then(log => {
+				panel.logDetails().then(req => req.json()).then(json => {
+					for(let l of json){
+						generationLog(l).then(p => log.append(p))
+					}
+				}).catch(err => console.error(err))
+				window.logUpdateInterval = setInterval(() => {
+					if(location.pathname != "/"){
+						clearInterval(window.logUpdateInterval)
+						return
+					}
+					panel.log().then(req => req.json()).then(text => {
+						if(window.logUpdatetimeStamp != text){
+							window.logUpdatetimeStamp = text;
+							panel.logDetails().then(req => req.json()).then(json => {
+								for(let l of json){
+									if(doc.query(`#log_${l.id.split("-").join("")}`).length == 0){
+										generationLog(l)
+										.then(p => {
+											log.append(p);
+											log.scrollTop = log.scrollHeight + log.offsetHeight;
+										})
+									}
+								}
+							}).catch(err => {
+								console.log(err)
+							});
+							log.scrollTop = log.scrollHeight + log.offsetHeight;
+						}
+					}).catch(err => {
+						logging.error(err);
+					});
+				}, 1000);
+			})
+	})
+	// 刷新第一个信息栏
 	refreshStatus();
 	window.refreshStatusInterval = setInterval(() => {
 		if(location.pathname != "/"){
@@ -356,184 +305,4 @@ export function index(){
 		}
 		refreshStatus();
 	}, 1000);
-	// 加载第二个信息栏
-	function refreshProviders(infos){
-		for(let i of infos.providers){
-			doc.createElement("div")
-			.then(div => {
-				div.classList.add("subs");
-				doc.createElement("p")
-				.then(p => {
-					p.innerText = i.name;
-					p.classList.add("subsTitle");
-					div.append(p);
-				});
-				doc.createElement("div")
-				.then(container => {
-					container.classList.add("container");
-					if(i.type == "remote" && i.subInfo.support){
-						// 上传流量
-						doc.createElement("p")
-						.then(subinfo => {
-							subinfo.classList.add("uploadFlowRate");
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoIcon");
-								span.innerText = "↑";
-								subinfo.append(span);
-							})
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoText");
-								span.innerText = toMemory(i.subInfo.info.upload);
-								subinfo.append(span);
-							})
-							container.append(subinfo);
-						});
-						// 下载流量
-						doc.createElement("p")
-						.then(subinfo => {
-							subinfo.classList.add("downloadFlowRate");
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoIcon");
-								span.innerText = "↓";
-								subinfo.append(span);
-							})
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoText");
-								span.innerText = toMemory(i.subInfo.info.download);
-								subinfo.append(span);
-							})
-							container.append(subinfo);
-						});
-						// 已用流量
-						doc.createElement("p")
-						.then(subinfo => {
-							subinfo.classList.add("usedFlowRate");
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoIcon");
-								span.innerText = "⇵";
-								subinfo.append(span);
-							})
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoText");
-								span.innerText = toMemory(i.subInfo.info.upload + i.subInfo.info.download);
-								subinfo.append(span);
-							})
-							container.append(subinfo);
-						});
-						// 总量
-						doc.createElement("p")
-						.then(subinfo => {
-							subinfo.classList.add("totalFlowRate");
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoIcon");
-								span.innerText = "◔";
-								subinfo.append(span);
-							})
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoText");
-								span.innerText = toMemory(i.subInfo.info.total);
-								subinfo.append(span);
-							})
-							container.append(subinfo);
-						});
-						// 过期时间
-						doc.createElement("p")
-						.then(subinfo => {
-							subinfo.classList.add("expireDate");
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoIcon");
-								span.innerText = "↹";
-								subinfo.append(span);
-							})
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoText");
-								if(i.subInfo.info.expire == 0){
-									span.innerText = "不限时";
-								} else {
-									let date = new Date(i.subInfo.info.expire * 1000);
-									span.innerText = `${String(date.getFullYear()).slice(2)}/${date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}/${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`;
-								}
-								subinfo.append(span);
-							})
-							container.append(subinfo);
-						});
-						// 上次更新时间
-						doc.createElement("p")
-						.then(subinfo => {
-							subinfo.classList.add("updateTime");
-							subinfo.addEventListener("click", event => {
-								panel.subsInfos({name: i.name}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
-							});
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoIcon");
-								span.innerText = "↺";
-								subinfo.append(span);
-							})
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoText");
-								let date = new Date(i.subInfo.timeStamp);
-								span.innerText = `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`;
-								subinfo.append(span);
-							})
-							container.append(subinfo);
-						});
-					} else if(i.type == "http" && i.subInfo.support == false){
-						doc.createElement("p")
-						.then(p => {
-							p.innerText = "无法查询使用情况";
-							p.classList.add("httpFlowRate");
-							container.append(p);
-						})
-						// 上次更新时间
-						doc.createElement("p")
-						.then(subinfo => {
-							subinfo.classList.add("httpUpdateTime");
-							subinfo.addEventListener("click", event => {
-								panel.subsInfos({name: i.name}, "POST").then(req => req.text()).then(text => logging.info(text)).catch(err => console.log(err));
-							});
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoIcon");
-								span.innerText = "↺";
-								subinfo.append(span);
-							})
-							doc.createElement("span")
-							.then(span => {
-								span.classList.add("infoText");
-								let date = new Date(i.subInfo.timeStamp);
-								span.innerText = `${date.getHours() < 10 ? '0' + date.getHours() : date.getHours()}:${date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()}`;
-								subinfo.append(span);
-							})
-							container.append(subinfo);
-						});
-					} else {
-						doc.createElement("p")
-						.then(p => {
-							p.innerText = "本地配置";
-							p.classList.add("fileFlowRate");
-							container.append(p);
-						})
-					}
-					div.append(container);
-				});
-				return div;
-			})
-			.then(div => doc.query("#subs").append(div));
-		}
-	}
-	panel.subsInfos().then(json => json.json()).then(infos => {
-		refreshProviders(infos);
-	}).catch(err => {});
 }
