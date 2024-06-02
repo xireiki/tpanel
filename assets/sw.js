@@ -8,7 +8,7 @@ if ("serviceWorker" in navigator) {
 		});
 		// 提醒用户页面已更新
 		navigator.serviceWorker.oncontrollerchange = e => {
-			alert("页面已更新");
+			alert("页面已更新，当前版本 v0.0.1-alpha.4");
 		}
 		// 提示使用离线版本
 		if(!navigator.onLine){
