@@ -1,8 +1,11 @@
-import { doc, config } from "../document.js";
+import { doc, config, getPanel } from "../document.js";
 import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
 export function setting(){
+	if(!window.panel){
+		return getPanel(setting)
+	}
 	let options = [
 		{
 			id: 1,
@@ -54,7 +57,7 @@ export function setting(){
 		{
 			id: 5,
 			name: "DNS",
-			url: "/setting/dnsServer",
+			url: "/setting/dns",
 			description: "书灵身上一定有墨香！因为“腹有诗书气自华”。"
 		},
 		{

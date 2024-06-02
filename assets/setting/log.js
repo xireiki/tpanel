@@ -1,8 +1,11 @@
-import { doc, config } from "../document.js";
+import { doc, config, getPanel } from "../document.js";
 import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
 export function log(){
+	if(!window.panel){
+		return getPanel(log)
+	}
 	doc.createElement("div")
 	.then(div => {
 		div.id = "logOption";

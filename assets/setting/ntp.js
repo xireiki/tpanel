@@ -1,10 +1,11 @@
-import { doc, config } from "../document.js";
+import { doc, config, getPanel } from "../document.js";
 import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
 export function ntp(){
-	if(document.getElementById("general")) return;
-	// 盒子
+	if(!window.panel){
+		return getPanel(ntp)
+	}
 	doc.createElement("div")
 	.then(div => {
 		div.id = "ntpOption";

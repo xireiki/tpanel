@@ -39,7 +39,7 @@ this.addEventListener("fetch", e => {
 	if(url.origin !== self.origin){
 		return
 	}
-	if(url.pathname.startsWith("/auth") || url.pathname.startsWith("/setting") || url.pathname === "/"){
+	if(url.pathname.startsWith("/auth") || url.pathname.startsWith("/setting") || url.pathname.startsWith("/404") || url.pathname === "/"){
 		let pageRequest = new Request("/");
 		e.respondWith(caches.match(pageRequest).then(response => {
 			return response || fetch(pageRequest)

@@ -1,8 +1,11 @@
-import { doc, config } from "../document.js";
+import { doc, config, getPanel } from "../document.js";
 import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
-export function outboundProvider(e){
+export function outboundProvider(){
+	if(!window.panel){
+		return getPanel(outboundProvider)
+	}
 	doc.createElement("div")
 	.then(div => {
 		div.id = "subscribe";
@@ -46,4 +49,8 @@ export function outboundProvider(e){
 		}).catch(err => logging.error(ert));
 		document.querySelector('#app').append(div);
 	});
+}
+
+export function outboundProviderEdit(id){
+
 }

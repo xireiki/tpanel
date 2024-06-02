@@ -1,8 +1,9 @@
 import { clash } from "../api.js";
-import { doc, config, toMemory } from "../document.js";
+import { doc, config, toMemory, getPanel } from "../document.js";
 import { goto } from "../route.js";
 import { logging } from "../logging.js";
 import { processTasks, SuperTask, runTask, makeWorker } from "../task.js";
+import { verifyAuthorizationCode } from "../document.js";
 
 function generationLog(log){
 	return new Promise(resolve => {
@@ -72,7 +73,9 @@ function updateStatus(status, runMode, apMode, cpu, button = []){
 }
 
 export function index(){
-	// 创建页面主框架
+	if(!window.panel){
+		return getPanel(index)
+	}
 	// 第一个信息栏
 	doc.createElement("div")
 	.then(div => {

@@ -1,9 +1,12 @@
-import { doc, config } from "../document.js";
+import { doc, config, getPanel } from "../document.js";
 import { maho } from "../api.js";
 import { logging } from "../logging.js";
 import { goto } from "../route.js";
 
-export function mystery(e){
+export function mystery(){
+	if(!window.panel){
+		return getPanel(mystery)
+	}
   if(document.getElementById("settingBox")) return;
   panel.maho().then(req => req.json()).then(json => {
     doc.createElement("div")

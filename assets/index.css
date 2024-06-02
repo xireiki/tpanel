@@ -121,6 +121,7 @@ button {
 button:disabled {
   background-color: var(--button-disable-background-color);
   color: var(--button-disable-color);
+  box-shadow: 0 0 5px var(--button-disable-background-color);
 }
 input[type="text"] {
   line-height: 1.1rem;
@@ -271,7 +272,7 @@ select:focus {
 .controlCenter {
   display: black;
   width: 90%;
-  margin: 10px auto;
+  margin: 5% auto;
   min-height: 130px;
   max-height: 200px;
   border-radius: 25px;
@@ -347,7 +348,7 @@ select:focus {
   margin-top: 20px;
   word-break: break-all;
   text-align: center;
-  width: 80%;
+  width: 90%;
   min-height: 20px;
   background-color: var(--transparent-background-color);
   animation: FadeIn 0.5s ease-in forwards;
@@ -361,7 +362,7 @@ select:focus {
   overflow: scroll;
 }
 .subs {
-  width: 80%;
+  width: 90%;
   min-height: 30px;
   margin: 15px auto;
   border: var(--border-size) solid var(--border-color);
@@ -374,6 +375,7 @@ select:focus {
 .subsTitle {
   text-align: center;
   width: 80%;
+  overflow: scroll;
   margin: 0 auto;
 }
 .container {
@@ -671,6 +673,7 @@ select:focus {
 .settingBox > div > div > input:hover {
   width: 100%;
 }
+/* 授权码输入 */
 #authorizationKeyName {
   width: 50%;
 }
@@ -693,6 +696,7 @@ select:focus {
   background: blue;
   text-align: right;
 }
+/* 二级选项列表 */
 .settingListBox {
   width: 93%;
   min-height: 30px;
@@ -722,6 +726,7 @@ select:focus {
 }
 .allsub {
   width: 96%;
+  max-height: 90%;
   position: relative;
   left: 1.5%;
   overflow: scroll;
@@ -743,6 +748,9 @@ select:focus {
   font-size: 1.2em;
   color: var(--main-color);
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .everysub > p {
   width: 100%;
@@ -754,6 +762,12 @@ select:focus {
   border-radius: 2px;
   border: var(--border-size) solid var(--border-color);
 }
+/* dns 选项 */
+.dnsOption {
+  width: 90%;
+  margin: 2px auto;
+}
+
 /* 淡入动画 */
 @keyframes FadeIn {
   from {
